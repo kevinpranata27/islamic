@@ -1,0 +1,407 @@
+<!--
+File: islamic_site.html
+Simpan sebagai islamic_site.html lalu buka di browser.
+Versi: final (full HTML) — tema agama Islam dengan efek estetik & animasi
+-->
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Makna & Cahaya — Islam dalam Kehidupan</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0f1724;               /* deep slate */
+      --card: rgba(255,255,255,0.04);
+      --glass: rgba(255,255,255,0.04);
+      --muted: #9aa4b2;
+      --accent: #8bd6c6;          /* mint */
+      --accent-2: #7cc7ff;        /* sky */
+      --glass-border: rgba(255,255,255,0.06);
+      --radius: 14px;
+      --maxw: 1100px;
+      --fade-duration: 700ms;
+      color-scheme: dark;
+    }
+
+    /* Reset & base */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(124,199,255,0.04), transparent),
+        radial-gradient(900px 500px at 90% 90%, rgba(139,214,198,0.03), transparent),
+        var(--bg);
+      color:#e6f0f2;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      padding:40px 20px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      overflow-y:auto;
+    }
+
+    /* container initial fade-in */
+    .container{
+      width:100%;
+      max-width:var(--maxw);
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity var(--fade-duration) ease, transform var(--fade-duration) ease;
+    }
+    .container.visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:26px;
+    }
+
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:54px;height:54px;border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid;place-items:center;font-weight:700;font-family:'Playfair Display', serif;
+      box-shadow:0 8px 30px rgba(40,60,80,0.25);
+      transition:transform .36s cubic-bezier(.2,.9,.3,1), box-shadow .36s;
+    }
+    .logo span{font-size:20px;color:#052;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5))}
+    .logo:hover{transform:translateY(-6px) rotate(-2deg)}
+
+    .title{display:flex;flex-direction:column;line-height:1}
+    .title .main{font-family:'Playfair Display', serif;font-size:18px;font-weight:700}
+    .title .sub{font-size:12px;color:var(--muted)}
+
+    /* NAV with animated underline */
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+      padding:8px 12px;
+      border-radius:10px;
+      position:relative;
+      overflow:hidden;
+      transition: color .18s ease;
+    }
+    nav a:hover{color:#fff}
+    /* underline animate */
+    nav a::after{
+      content:"";
+      position:absolute;
+      bottom:6px;
+      left:50%;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      transition: width .32s cubic-bezier(.2,.9,.3,1), left .32s;
+      transform:translateX(-50%);
+      border-radius:2px;
+    }
+    nav a:hover::after{width:70%}
+
+    /* Hero */
+    .hero{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      border:1px solid var(--glass-border);
+      display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:stretch;
+    }
+    .hero-left{padding-right:6px}
+    h1{font-family:'Playfair Display', serif;font-size:28px;margin:4px 0 8px;position:relative}
+    h1::after{
+      content:"";
+      display:block;
+      width:40px;height:3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      margin-top:6px;border-radius:2px;
+    }
+    p.lead{color:var(--muted);margin:0 0 18px}
+    .kufic{
+      font-family:'Playfair Display', serif;
+      font-size:36px;color:var(--accent);
+      letter-spacing:1px;margin-bottom:8px
+    }
+
+    .verse{
+      background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;border-radius:12px;border:1px solid var(--glass-border);
+      transition: box-shadow .28s, transform .28s;
+    }
+    .verse:hover{box-shadow:0 8px 30px rgba(120,170,200,0.06); transform: translateY(-4px);}
+    .verse .arabic{font-size:20px;font-family: 'Times New Roman', serif;text-align:right}
+    .verse .trans{color:var(--muted);font-size:13px;margin-top:8px}
+
+    .hero-right{display:flex;flex-direction:column;gap:12px}
+
+    .card{
+      background:var(--card);
+      padding:14px;border-radius:12px;border:1px solid var(--glass-border);
+      transition:transform .36s cubic-bezier(.2,.9,.3,1), box-shadow .36s;
+      opacity:0; transform: translateY(20px);
+    }
+    .card:hover{transform:translateY(-6px)}
+
+    .pill{display:flex;gap:10px;align-items:center}
+    .pill .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+    main{margin-top:22px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .section{
+      padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border:1px solid var(--glass-border);
+      opacity:0; transform: translateY(20px);
+      transition: all .6s ease;
+    }
+    .section h3{margin:0 0 8px; position:relative}
+    .section h3::after{
+      content:"";
+      display:block;width:30px;height:2px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      margin-top:6px;border-radius:2px;
+    }
+
+    ul{padding-left:18px;margin:6px 0}
+    li{margin:6px 0}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      body{padding:20px}
+      .grid{grid-template-columns:1fr}
+      .logo{width:46px;height:46px}
+      h1{font-size:22px}
+      .hero-right{order:2}
+    }
+
+    /* small animations - reveal */
+    .show { opacity:1 !important; transform:translateY(0) !important; }
+
+    /* highlight quote */
+    .highlight{font-family:'Playfair Display', serif;font-size:16px;color:var(--accent-2)}
+
+    /* smooth scroll behavior for nav */
+    html{scroll-behavior:smooth}
+
+    /* CTA */
+    .cta{
+      display:inline-block;padding:10px 14px;border-radius:12px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#052;font-weight:600;text-decoration:none;
+      box-shadow:0 0 12px rgba(124,199,255,0.28);
+      transition:transform .28s, box-shadow .28s;
+    }
+    .cta:hover{transform:translateY(-3px);box-shadow:0 0 22px rgba(124,199,255,0.48)}
+
+    /* subtle divider glow between sections */
+    .divider{
+      height:1px;border-radius:2px;margin:18px 0;
+      background:linear-gradient(90deg, rgba(124,199,255,0.06), rgba(139,214,198,0.04), rgba(124,199,255,0.06));
+    }
+
+    /* Utility */
+    .muted{color:var(--muted)}
+
+    /* Accessibility: reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      * { transition: none !important; animation: none !important; }
+      html{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="siteContainer">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><span>نور</span></div>
+        <div class="title">
+          <div class="main">Makna & Cahaya</div>
+          <div class="sub">Islam dalam keseharian — fiqih hati & akhlak</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about">Tentang</a>
+        <a href="#rukun">Rukun</a>
+        <a href="#akhlak">Akhlak</a>
+        <a href="#renungan">Renungan</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <div class="kufic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <h1 id="hero-title">Islam sebagai jalan: ilmu, amal, dan tata hati</h1>
+        <p class="lead">Sebuah pengantar yang memadukan ayat, makna, dan petunjuk praktis agar nilai-nilai Islam hadir dalam tindakan sehari-hari — bukan sekadar pengetahuan, tapi transformasi hati.</p>
+
+        <div class="verse" id="about" aria-label="Ayat Al-Qur'an">
+          <div class="arabic">سَيَجْعَلُ اللَّهُ بَعْدَ عُسْرٍ يُسْرًا</div>
+          <div class="trans">"Allah akan menjadikan sesudah kesulitan itu kemudahan." — (QS. Al-Insyirah: 5)</div>
+        </div>
+
+        <p style="margin-top:12px;" class="muted">Pilihan isi: ringkasan makna, panduan praktis, doa singkat, dan renungan harian. Gunakan tombol di samping untuk mempelajari poin pentingnya.</p>
+      </div>
+
+      <aside class="hero-right" aria-label="Sidebar poin penting">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700">Poin Utama</div>
+              <div class="muted" style="font-size:13px">3 Dimensi: Iman - Ilmu - Amal</div>
+            </div>
+            <div class="pill">
+              <div class="dot" aria-hidden="true"></div>
+              <div class="muted" style="font-size:13px">Seimbang & Berkelanjutan</div>
+            </div>
+          </div>
+          <hr style="opacity:.06;margin:12px 0">
+          <div style="font-size:13px;color:var(--muted)">Pelajari: rukun Islam, rukun Iman, adab, etika sosial, dan contoh praktis untuk keluarga dan komunitas.</div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700">Doa Singkat</div>
+              <div class="muted" style="font-size:13px">Untuk memulai hari</div>
+            </div>
+            <div style="font-size:12px" class="muted">Bacaan: Subuh</div>
+          </div>
+          <div style="margin-top:10px;font-size:15px;font-family:'Playfair Display', serif">رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ</div>
+          <div class="muted" style="font-size:13px;margin-top:8px">"Ya Rabb, masukkan aku ke dalam tempat masuk yang benar..."</div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700">Aksi Hari Ini</div>
+              <div class="muted" style="font-size:13px">Satu langkah kecil</div>
+            </div>
+            <div class="muted" style="font-size:12px">Praktik</div>
+          </div>
+          <div style="margin-top:10px">Tolong satu orang hari ini — senyum, bantu, atau berdoa untuknya. Amal kecil sering melahirkan perubahan besar.</div>
+        </div>
+      </aside>
+    </section>
+
+    <main>
+      <div class="grid" style="margin-bottom:16px">
+        <div class="section" id="rukun">
+          <h3>Rukun Islam & Maknanya</h3>
+          <ul>
+            <li><strong>Syahadat</strong> — pengakuan tauhid; fondasi identitas spiritual.</li>
+            <li><strong>Shalat</strong> — komunikasi berkala dengan Pencipta; disiplin hati dan waktu.</li>
+            <li><strong>Zakat</strong> — pembersih harta, perwujudan keadilan sosial.</li>
+            <li><strong>Puasa</strong> — kontrol diri dan empati terhadap yang lemah.</li>
+            <li><strong>Haji</strong> — simbol persaudaraan umat di hadapan Allah.</li>
+          </ul>
+          <p class="muted" style="margin-top:8px">Setiap rukun memiliki dimensi iman (kepercayaan), praktik (amal) dan etik (adab).</p>
+        </div>
+
+        <div class="section" id="akhlak">
+          <h3>Akhlak — Peradaban dari Hati</h3>
+          <p>Akhlak adalah wajah Islam di dunia. Berikut beberapa etika yang ditekankan:</p>
+          <ul>
+            <li>Kejujuran — kebenaran memperbaiki hubungan.</li>
+            <li>Kesabaran — menahan diri saat ujian datang.</li>
+            <li>Kasih sayang — kepada keluarga, tetangga, dan lingkungan.</li>
+            <li>Tanggung jawab sosial — berbagi, menolong, dan menegakkan keadilan.</li>
+          </ul>
+        </div>
+
+        <div class="section" id="renungan">
+          <h3>Renungan Singkat</h3>
+          <p class="highlight">"Cahaya kecil yang dilakukan terus-menerus lebih berharga daripada niat besar yang tak pernah terlaksana."</p>
+          <p style="margin-top:8px">Renungkan: Tindakan kecil sehari-hari (senyum, ucapan yang baik, doa) adalah sedekah yang membentuk karakter.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <h3>Ilmu & Penerapan</h3>
+          <p>Memahami makna ibadah dan menerapkannya: contoh sederhana di rumah</p>
+          <ul>
+            <li>Waktu shalat sebagai pengingat istirahat dan syukur.</li>
+            <li>Berbagi makanan sebagai praktik zakat & sedekah.</li>
+            <li>Mendidik anak dengan cerita nabi dan teladan akhlak.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>Doa & Dzikir Ringkas</h3>
+          <p style="margin:8px 0">Doa harian mudah diingat:</p>
+          <ul>
+            <li>Subuh: <em>Ya Allah, jadikan hari ini penuh keberkahan.</em></li>
+            <li>Petang: <em>Terima kasih atas limpahan rahmat-Mu.</em></li>
+            <li>Kesulitan: <em>Ya Allah, lapangkanlah urusanku.</em></li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>Kesimpulan</h3>
+          <p>Islam mengajak perubahan hati yang konsisten: ilmu mengarahkan, amal menegakkan, dan akhlak menghidupkan. Mulai dari langkah kecil — konsistensi lebih penting daripada kehebatan sesaat.</p>
+          <div class="divider" aria-hidden="true"></div>
+          <a class="cta" href="#about">Mulailah dari Bismillah</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div>© 2025 — Makna & Cahaya. Konten bersifat pengantar; konsultasikan dengan guru agama untuk penjelasan mendalam.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Make container fade-in when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('siteContainer');
+      // small timeout for nicer effect but respects reduced-motion preference
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setTimeout(()=> container.classList.add('visible'), 80);
+      } else {
+        container.classList.add('visible');
+      }
+
+      // IntersectionObserver for fade-up reveal
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            // optionally unobserve to improve performance
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      // observe sections and cards
+      document.querySelectorAll('.section, .card, .verse').forEach(el => observer.observe(el));
+    });
+
+    // Accessibility: if user prefers reduced motion, disable animations
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.style.scrollBehavior = 'auto';
+    }
+  </script>
+</body>
+</html>
